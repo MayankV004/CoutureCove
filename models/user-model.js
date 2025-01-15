@@ -25,17 +25,12 @@ const userSchema = new mongoose.Schema({
         type:Array,
         default:[]
     },
-    isAdmin:{
-        type:Boolean,
-        default:false
-    },
     orders:{
         type:Array,
         default:[]
     },
     contact:{
-       type:Number,
-        required:[true , "Please provide your contact number"], 
+       type:Number, 
         unique:true,
         minlength:[10 , "Contact number must be atleast 10 digits long"],
         validator:[validator.isMobilePhone , "Please provide a valid contact number"],
@@ -43,7 +38,7 @@ const userSchema = new mongoose.Schema({
     },
     address:{
         type:String,
-        required:[true , "Please provide your address"]
+        
     },
     picture:{
         type:String

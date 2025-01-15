@@ -1,11 +1,7 @@
-const { text } = require("express");
 const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema({
-    image :{
-        type:String,
-        required:[true , "Please provide an image"]
-    },
+    image:Buffer,
     name:{
         type:String,
         required:[true , "Please provide a name"]
@@ -17,15 +13,15 @@ const productSchema = new mongoose.Schema({
         type:Number,
         default:0
     },
-    bgColor:{
+    bgcolor:{
         type:String,
         default:"white"
     },
-    panelColor:{
+    panelcolor:{
         type:String,
         default:"white"
     },
-    textColor:{
+    textcolor:{
         type:String,
         default:"black"
     },

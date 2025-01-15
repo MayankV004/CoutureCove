@@ -6,10 +6,12 @@ const db = require("./config/mongoose-connection")
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
+const flash = require('connect-flash');
+const session = require('express-session')
 const ownersRouter = require('./routes/ownersRouter');
 const usersRouter = require('./routes/usersRouter');
 const productsRouter = require('./routes/productsRouter');
-
+const indexRouter = require('./routes/indexRouter');
 const app = express();
 
 // Database connection
@@ -31,23 +33,25 @@ app.use(helmet());
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize())
 
+app.use(session(
+  {  resave: false,
+     saveUninitialized: false,
+     secret: process.env.EXPRESS_SESSION_SECRET_KEY,
+  }
+))
 
+app.use(flash());
 //-----------------------------------------------------------------------------------------
 
 app.set('view engine', 'ejs');
 
 //---------------------------------------Routes------------------------------------------------
 
-app.get('/', (req, res) => {
-  res.send('Yo!');
-});
-
+app.use("/", indexRouter);
 app.use("/owner" , ownersRouter);
 app.use("/users" , usersRouter);
 app.use("/products", productsRouter);
 
 
 
-app.listen(process.env.PORT , () => {
-  console.log(`Server is running on port ${process.env.PORT}`);
-});
+app.listen(process.env.PORT);
