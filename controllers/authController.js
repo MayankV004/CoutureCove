@@ -1,5 +1,5 @@
 const userModel = require("../models/user-model");
-const { hashPassord } = require("../utils/encryptPass");
+const { hashPass } = require("../utils/encryptPass");
 const { jsontoken } = require("../utils/GenerateToken");
 const { comparePass } = require("../utils/decryptPass");
 
@@ -12,11 +12,11 @@ const registerUser = async (req, res) => {
       req.flash("message", "The email is already registered");
       res.redirect("/");
     }
-    const hashPassword = await hashPassord(password); // hashing the password
+    const hash = await hashPass(password); // hashing the password
     let user = await userModel.create({
       fullname,
       email,
-      password: hashPassword,
+      password: hash,
     });
     const token = jsontoken(user); // generating token
     res.cookie("token", token);
@@ -33,7 +33,8 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const IsExistUser = await userModel.findOne({ email: email });
+    const IsExistUser = await userModel.findOne({ email: email }).select("+password");
+    
     if (!IsExistUser) {
       req.flash("message", "Something went wrong");
       res.redirect("/");

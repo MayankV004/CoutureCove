@@ -3,9 +3,9 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 require('dotenv').config();
 const db = require("./config/mongoose-connection")
-const helmet = require('helmet');
-const mongoSanitize = require('express-mongo-sanitize');
-const xss = require('xss-clean');
+// const helmet = require('helmet');
+// const mongoSanitize = require('express-mongo-sanitize');
+// const xss = require('xss-clean');
 const flash = require('connect-flash');
 const session = require('express-session')
 const ownersRouter = require('./routes/ownersRouter');
@@ -28,10 +28,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Set security HTTP headers
-app.use(helmet());
+// app.use(helmet());
 
 // Data sanitization against NoSQL query injection
-app.use(mongoSanitize())
+// app.use(mongoSanitize())
 
 app.use(session(
   {  resave: false,

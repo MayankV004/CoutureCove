@@ -21,17 +21,17 @@ const userSchema = new mongoose.Schema({
         minlength:[8 , "Password must be atleast 8 characters long"]
         // To see password in output use .select('+password') in query
     },
-    cart:{
-        type:Array,
+    cart:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Product",
         default:[]
-    },
+    }],
     orders:{
         type:Array,
         default:[]
     },
     contact:{
        type:Number, 
-        unique:true,
         minlength:[10 , "Contact number must be atleast 10 digits long"],
         validator:[validator.isMobilePhone , "Please provide a valid contact number"],
 
